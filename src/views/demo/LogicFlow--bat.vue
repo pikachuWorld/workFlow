@@ -1,11 +1,3 @@
-<!--
- * @Descripttion: 
- * @Version: 1.0
- * @Author: jinqingsong
- * @Date: 2022-11-23 21:09:50
- * @LastEditors: jinqingsong
- * @LastEditTime: 2022-11-23 21:09:50
--->
 
 <template>
     <h1>
@@ -50,7 +42,7 @@ import {
 import '@logicflow/core/dist/style/index.css'
 import '@logicflow/extension/lib/style/index.css'
 import { testNode, dndPanelItems, menuConfig } from './dataConfig'
-// import UserTask from './UserTaskNode'
+import UserTask from './UserTaskNode'
 // console.log('=sjq==UserTask ', UserTask)
 export default {
     name: 'login',
@@ -102,38 +94,15 @@ export default {
                 },
             },
         })
-        // this.lf.register(UserTask)
-        const callback = () => {
-            this.lf.extension.selectionSelect.openSelectionSelect()
-            this.lf.once('selection:selected', () => {
-                console.log('====selection:selected')
-                this.lf.extension.selectionSelect.closeSelectionSelect()
-            })
-        }
-        this.lf.extension.dndPanel.setPatternItems(dndPanelItems(callback))
-        // 为菜单追加选项（必须在 lf.render() 之前设置）
-        this.lf.extension.menu.addMenuConfig(menuConfig)
-        // 添加导航栏
-        this.lf.extension.control.addItem({
-            iconClass: 'custom-minimap',
-            title: 'ss',
-            text: '导航',
-            onMouseEnter: (lf, ev) => {
-                const position = lf.getPointByClient(ev.x, ev.y)
-                lf.extension.miniMap.show(
-                    position.domOverlayPosition.x - 120,
-                    position.domOverlayPosition.y + 35
-                )
-            },
-            onClick: (lf, ev) => {
-                const position = lf.getPointByClient(ev.x, ev.y)
-                lf.extension.miniMap.show(
-                    position.domOverlayPosition.x - 120,
-                    position.domOverlayPosition.y + 35
-                )
-            },
-        })
-
+        this.lf.register(UserTask)
+        // const callback = () => {
+        //     this.lf.extension.selectionSelect.openSelectionSelect()
+        //     this.lf.once('selection:selected', () => {
+        //         console.log('====selection:selected')
+        //         this.lf.extension.selectionSelect.closeSelectionSelect()
+        //     })
+        // }
+        // this.lf.extension.dndPanel.setPatternItems(dndPanelItems(callback))
         this.lf.render({
             nodes: [
                 {
@@ -150,16 +119,12 @@ export default {
                     y: 200,
                     text: '节点2',
                 },
+                {
+                    type: 'UserTask',
+                    x: 100,
+                    y: 100,
+                },
             ],
-        })
-        // 通过 getGraphData 来获取转换后的数据
-        this.lf.getGraphData()
-        // 可以使用任意方式触发，然后将绘制的图形下载到本地磁盘上
-        document.getElementById('download').addEventListener('click', () => {
-            console.log('download')
-            this.lf.getSnapshot()
-            // 或者 1.1.13版本
-            // this.lf.extension.snapshot.getSnapshot()
         })
     },
 }
