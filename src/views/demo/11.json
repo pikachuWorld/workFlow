@@ -1,0 +1,194 @@
+{
+    "nodes": [
+        {
+            "id": "node1",
+            "renderKey": "DND_NDOE",
+            "width": 180,
+            "height": 36,
+            "label": "算法节点-1",
+            "ports": [
+                {
+                    "id": "node1-input-1",
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩"
+                },
+                {
+                    "id": "node1-output-1",
+                    "type": "output",
+                    "group": "bottom",
+                    "tooltip": "输出桩"
+                }
+            ],
+            "x": 300,
+            "y": 50,
+            "_order": 0
+        },
+        {
+            "id": "node2",
+            "renderKey": "DND_NDOE",
+            "width": 180,
+            "height": 36,
+            "label": "算法节点-2",
+            "ports": [
+                {
+                    "id": "node2-input-1",
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩",
+                    "connected": true
+                },
+                {
+                    "id": "node2-output-1",
+                    "type": "output",
+                    "group": "bottom",
+                    "tooltip": "输出桩"
+                }
+            ],
+            "x": 80,
+            "y": 180,
+            "_order": 0
+        },
+        {
+            "id": "node3",
+            "renderKey": "DND_NDOE",
+            "width": 180,
+            "height": 36,
+            "label": "算法节点-3",
+            "ports": [
+                {
+                    "id": "node3-input-1",
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩",
+                    "connected": true
+                },
+                {
+                    "id": "node3-output-1",
+                    "type": "output",
+                    "group": "bottom",
+                    "tooltip": "输出桩"
+                }
+            ],
+            "x": 300,
+            "y": 180,
+            "_order": 1
+        },
+        {
+            "id": "node4",
+            "renderKey": "DND_NDOE",
+            "width": 180,
+            "height": 36,
+            "label": "算法节点-4",
+            "ports": [
+                {
+                    "id": "node4-input-1",
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩",
+                    "connected": true
+                },
+                {
+                    "id": "node4-output-1",
+                    "type": "output",
+                    "group": "bottom",
+                    "tooltip": "输出桩"
+                }
+            ],
+            "x": 520,
+            "y": 180,
+            "_order": 2
+        },
+        {
+            "id": "398c0e0a-020a-43d8-928b-fca01a584d80",
+            "renderKey": "DND_NDOE",
+            "width": 180,
+            "height": 36,
+            "label": "算法组件1",
+            "parentId": "1",
+            "popoverContent": {
+                "key": null,
+                "ref": null,
+                "props": {
+                    "name": "算法组件1"
+                },
+                "_owner": null
+            },
+            "x": 190,
+            "y": -320,
+            "ports": [
+                {
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩1",
+                    "id": "f3dac76a-9245-4f3b-89f2-026460e7dd9c"
+                },
+                {
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩2",
+                    "id": "747bd7c3-8cff-4c8a-97b1-15d98c94a4ba"
+                },
+                {
+                    "type": "input",
+                    "group": "top",
+                    "tooltip": "输入桩3",
+                    "id": "0d9f0ea2-ada6-46cb-9f40-839c17f9bfcd"
+                },
+                {
+                    "type": "output",
+                    "group": "bottom",
+                    "tooltip": "输出桩",
+                    "id": "19895341-9a74-4811-8fe2-514b4705bc82"
+                }
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "id": "d1da056e-af0f-42e6-8bcf-f738a4491954",
+            "source": "node1",
+            "target": "node2",
+            "sourcePortId": "node1-output-1",
+            "targetPortId": "node2-input-1",
+            "connector": {
+                "name": "rounded"
+            },
+            "router": {
+                "name": "manhattan"
+            },
+            "sourcePort": "node1-output-1",
+            "targetPort": "node2-input-1"
+        },
+        {
+            "id": "37c4c697-35d9-4691-8204-5e76b9ef4cca",
+            "source": "node1",
+            "target": "node3",
+            "sourcePortId": "node1-output-1",
+            "targetPortId": "node3-input-1",
+            "connector": {
+                "name": "rounded"
+            },
+            "router": {
+                "name": "manhattan"
+            },
+            "sourcePort": "node1-output-1",
+            "targetPort": "node3-input-1"
+        },
+        {
+            "id": "35a728d9-97b0-4d0d-b8e5-ce1e9600b22e",
+            "source": "node1",
+            "target": "node4",
+            "sourcePortId": "node1-output-1",
+            "targetPortId": "node4-input-1",
+            "connector": {
+                "name": "rounded"
+            },
+            "router": {
+                "name": "manhattan"
+            },
+            "sourcePort": "node1-output-1",
+            "targetPort": "node4-input-1"
+        }
+    ]
+}
