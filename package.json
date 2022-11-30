@@ -9,9 +9,15 @@
   "dependencies": {
     "@logicflow/core": "^1.1.30",
     "@logicflow/extension": "^1.1.30",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "d3": "^7.6.1",
     "element-plus": "^2.2.16",
     "mockjs": "^1.1.0",
     "pinia": "^2.0.17",
+    "three": "^0.146.0",
+    "three-css2drender": "^1.0.0",
+    "three-obj-mtl-loader": "^1.0.3",
+    "three-orbit-controls": "^82.1.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },

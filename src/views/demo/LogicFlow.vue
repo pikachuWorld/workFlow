@@ -4,29 +4,80 @@
  * @Author: jinqingsong
  * @Date: 2022-11-23 21:09:50
  * @LastEditors: jinqingsong
- * @LastEditTime: 2022-11-23 21:09:50
+ * @LastEditTime: 2022-11-30 10:46:57
 -->
 
 <template>
-    <h1>
-        在vue等前端框架中使用logicflow</h1>
-    <div class="main">
-        <div class="container" ref="container">
-        </div>
-        <!-- <el-button :plain="true" id="download" class="download-pic">download</el-button> -->
-        <div class="snapshot">
-            <span id="download">
-                <img src="../../../public/icon-01.png" alt="下载图片">
-            </span>
-            <span>
-                <img src="../../../public/icon-02.png" alt="上传XML">
-            </span>
-            <span>
-                <img src="../../../public/icon-03.png" alt="上传XML">
-            </span>
-        </div>
+    <!-- <h1>
+        在vue等前端框架中使用logicflow</h1> -->
+    <div class="common-layout">
+        <el-container>
+            <el-header>
+                <el-row>
+                    <el-col :span="16">
+                        <div class="grid-content ep-bg-purple">
+                            流程设计
+                        </div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div class="grid-content ep-bg-purple-light">
+                            <div class="snapshot">
+                                <span id="download">
+                                    <img src="../../../public/icon-01.png" alt="下载图片">
+                                </span>
+                                <span>
+                                    <img src="../../../public/icon-02.png" alt="上传XML">
+                                </span>
+                                <span>
+                                    <img src="../../../public/icon-03.png" alt="上传XML">
+                                </span>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-header>
+            <el-main>
+                <div class="main">
 
+                    <el-row :gutter="20">
+                        <el-col :span="19">
+                            <div class="grid-content ep-bg-purple">
+                                <div class="container" ref="container">
+                                </div>
+                            </div>
+                        </el-col>
+                        <el-col :span="5">
+                            <h3>流程信息栏</h3>
+                            <div class="grid-content ep-bg-purple">
+                                <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+                                    <el-tab-pane label="基本信息" name="first">
+                                        <el-form label-width="100px" style="max-width: 460px">
+                                            <el-form-item label="标识">
+                                                <el-input v-model="formLabelAlign.name" />
+                                            </el-form-item>
+                                            <el-form-item label="名称">
+                                                <el-input v-model="formLabelAlign.region" />
+                                            </el-form-item>
+                                            <el-form-item label="业务标识">
+                                                <el-input v-model="formLabelAlign.type" />
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-tab-pane>
+                                    <el-tab-pane label="人员" name="second">人员</el-tab-pane>
+                                    <el-tab-pane label="表单" name="third">表单</el-tab-pane>
+                                    <el-tab-pane label="扩展" name="fourth">扩展</el-tab-pane>
+                                </el-tabs>
+                            </div>
+                        </el-col>
+                    </el-row>
+
+                    <!-- <el-button :plain="true" id="js_set_animate" class="download-pic">开启动画</el-button> -->
+
+                </div>
+            </el-main>
+        </el-container>
     </div>
+
     <!-- <div class="rightContain">
             <input v-model="inputText">
            当前节点的文字:{{currentText}}
@@ -35,6 +86,10 @@
   
 <script>
 import LogicFlow from '@logicflow/core'
+import { Calendar } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+// import { TabsPaneContext } from 'element-plus'
+
 import {
     DndPanel,
     SelectionSelect,
@@ -44,14 +99,19 @@ import {
     InsertNodeInPolyline,
     BpmnElement,
     BpmnXmlAdapter,
-    BpmnAdapter,
+    // BpmnAdapter,
     Snapshot,
 } from '@logicflow/extension'
 import '@logicflow/core/dist/style/index.css'
 import '@logicflow/extension/lib/style/index.css'
 import { testNode, dndPanelItems, menuConfig } from './dataConfig'
-// import UserTask from './UserTaskNode'
-// console.log('=sjq==UserTask ', UserTask)
+import UserTask from './common/UserTaskNode'
+import SystemTask from './common/SystemTaskNode'
+import StartTask from './common/startTaskNode'
+import EndTask from './common/endTaskNode'
+import DiamondTask from './common/diamondTaskNode'
+import customEdge from './common/customEdge'
+
 export default {
     name: 'login',
     data() {
@@ -60,7 +120,15 @@ export default {
             currentText: '',
             inputText: 'default',
             curData: null,
+            formLabelAlign: {
+                name: '',
+                region: '',
+                type: '',
+            },
         }
+    },
+    components: {
+        Calendar,
     },
     watch: {
         inputText: function (val) {
@@ -89,7 +157,7 @@ export default {
                 Control,
                 MiniMap,
                 InsertNodeInPolyline,
-                BpmnAdapter,
+                // BpmnAdapter,
                 Snapshot,
             ],
             pluginsOptions: {
@@ -102,7 +170,14 @@ export default {
                 },
             },
         })
-        // this.lf.register(UserTask)
+        // StartTaskNode   CustomEdge
+        this.lf.register(StartTask)
+        this.lf.register(UserTask)
+        this.lf.register(SystemTask)
+        this.lf.register(EndTask)
+        this.lf.register(DiamondTask)
+        this.lf.register(customEdge)
+        this.lf.setDefaultEdgeType('custom-edge')
         const callback = () => {
             this.lf.extension.selectionSelect.openSelectionSelect()
             this.lf.once('selection:selected', () => {
@@ -110,6 +185,18 @@ export default {
                 this.lf.extension.selectionSelect.closeSelectionSelect()
             })
         }
+        this.lf.setTheme({
+            baseNode: {
+                fill: '#FFFFFF',
+                stroke: 'rgb(24, 125, 255)',
+                strokeWidth: 2,
+            },
+            baseEdge: {
+                stroke: '#187DFF',
+                strokeWidth: 2,
+            },
+        })
+
         this.lf.extension.dndPanel.setPatternItems(dndPanelItems(callback))
         // 为菜单追加选项（必须在 lf.render() 之前设置）
         this.lf.extension.menu.addMenuConfig(menuConfig)
@@ -133,55 +220,121 @@ export default {
                 )
             },
         })
-
+        //SystemTask  DiamondTask
         this.lf.render({
             nodes: [
                 {
-                    id: '1',
-                    type: 'rect',
+                    type: 'UserTask',
+                    x: 200,
+                    y: 200,
+                },
+            ],
+            nodes: [
+                {
+                    type: 'SystemTask',
+                    x: 300,
+                    y: 300,
+                },
+            ],
+            nodes: [
+                {
+                    type: 'StartTask',
                     x: 100,
                     y: 100,
-                    text: '节点1',
                 },
+            ],
+            nodes: [
                 {
-                    id: '2',
-                    type: 'circle',
-                    x: 300,
+                    type: 'DiamondTask',
+                    x: 200,
                     y: 200,
-                    text: '节点2',
                 },
             ],
         })
         // 通过 getGraphData 来获取转换后的数据
         this.lf.getGraphData()
-        // 可以使用任意方式触发，然后将绘制的图形下载到本地磁盘上
-        document.getElementById('download').addEventListener('click', () => {
-            console.log('download')
-            this.lf.getSnapshot()
-            // 或者 1.1.13版本
-            // this.lf.extension.snapshot.getSnapshot()
-        })
+        // 开启动画效果
+
+        // document
+        //     .querySelector('#js_set_animate')
+        //     .addEventListener('click', () => {
+        //         const { edges } = this.lf.getGraphRawData()
+        //         console.log('==getGraphRawData==', edges)
+        //         edges.forEach(({ id }) => {
+        //             this.lf.openEdgeAnimation(id)
+        //         })
+        //     })
+        // // 可以使用任意方式触发，然后将绘制的图形下载到本地磁盘上
+        // document.getElementById('download').addEventListener('click', () => {
+        //     console.log('download')
+        //     this.lf.getSnapshot()
+        //     // 或者 1.1.13版本
+        //     // this.lf.extension.snapshot.getSnapshot()
+        // })
+        const activeName = ref('first')
+        console.log('===activeName===', activeName.value)
+
+        const handleClick = (tab, event) => {
+            console.log(tab, event)
+        }
     },
+    methods: {},
 }
 </script>
-  
+ 
 
 <style scoped lang="scss">
+@import '@/assets/common-element.scss';
+
 $nav-color: red;
 .layout-demo {
 }
+.demo-tabs > .el-tabs__content {
+    padding: 32px;
+    color: #6b778c;
+    font-size: 32px;
+    font-weight: 600;
+}
+.demo-tabs .custom-tabs-label .el-icon {
+    vertical-align: middle;
+}
+.demo-tabs .custom-tabs-label span {
+    vertical-align: middle;
+    margin-left: 4px;
+}
+:deep(.el-header) {
+    display: block;
+    line-height: 60px;
+}
+:deep(.el-main) {
+    padding: 0;
+}
+:deep(.el-form-item) {
+    display: block;
+}
+:deep(.el-form-item .el-form-item__label) {
+    display: flex;
+    height: auto;
+    text-align: left;
+    margin-bottom: 8px;
+    line-height: 22px;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .main {
     position: relative;
+    top: 6px;
     .download-pic {
         position: absolute;
-        bottom: 20px;
-        left: 50px;
+        top: 20px;
+        left: 100px;
     }
     .snapshot {
-        position: absolute;
-        left: 50px;
-        bottom: 20px;
-        z-index: 9999;
+        // position: absolute;
+        // left: 50px;
+        // bottom: 20px;
+        // z-index: 9999;
         background: hsla(0, 0%, 100%, 0.8);
         box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
         padding: 10px;
@@ -193,8 +346,25 @@ $nav-color: red;
         }
     }
 }
+.snapshot {
+    // position: absolute;
+    // left: 50px;
+    // bottom: 20px;
+    // z-index: 9999;
+    background: hsla(0, 0%, 100%, 0.8);
+    // box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+    // padding: 10px;
+    display: flex;
+    height: 30px;
+    margin-top: 20px;
+    span {
+        display: block;
+        margin-left: 10px;
+        // background: #000;
+    }
+}
 .container {
-    width: 800px;
+    width: 100%;
     height: 500px;
 }
 
@@ -235,6 +405,11 @@ $nav-color: red;
     width: 20px;
     height: 20px;
     vertical-align: middle;
+    background-size: cover;
+}
+:deep(.lf-dnd-shape) {
+    width: 26px;
+    height: 26px;
     background-size: cover;
 }
 :deep(.custom-minimap) {

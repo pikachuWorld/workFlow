@@ -81,7 +81,7 @@ export default {
                 Control,
                 MiniMap,
                 InsertNodeInPolyline,
-                BpmnAdapter,
+                // BpmnAdapter,
                 Snapshot,
             ],
             pluginsOptions: {
@@ -95,21 +95,21 @@ export default {
             },
         })
         this.lf.register(UserTask)
-        // const callback = () => {
-        //     this.lf.extension.selectionSelect.openSelectionSelect()
-        //     this.lf.once('selection:selected', () => {
-        //         console.log('====selection:selected')
-        //         this.lf.extension.selectionSelect.closeSelectionSelect()
-        //     })
-        // }
-        // this.lf.extension.dndPanel.setPatternItems(dndPanelItems(callback))
+        const callback = () => {
+            this.lf.extension.selectionSelect.openSelectionSelect()
+            this.lf.once('selection:selected', () => {
+                console.log('====selection:selected')
+                this.lf.extension.selectionSelect.closeSelectionSelect()
+            })
+        }
+        this.lf.extension.dndPanel.setPatternItems(dndPanelItems(callback))
         this.lf.render({
             nodes: [
                 {
                     id: '1',
                     type: 'rect',
-                    x: 100,
-                    y: 100,
+                    x: 400,
+                    y: 400,
                     text: '节点1',
                 },
                 {
@@ -121,7 +121,7 @@ export default {
                 },
                 {
                     type: 'UserTask',
-                    x: 100,
+                    x: 200,
                     y: 100,
                 },
             ],
